@@ -1,0 +1,329 @@
+{
+	"info": {
+		"_postman_id": "992a3360-0ce9-42ac-a0d9-8b5f0b4da76f",
+		"name": "week2.day1.Variables",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36861124"
+	},
+	"item": [
+		{
+			"name": "create-a-new-record-with-request-body-in-incident-table Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp = pm.response.json();\r",
+							"var sysid = resp.result.sys_id;\r",
+							"pm.globals.set(\"cr_SysId\", sysid);\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"short_description\": \"Chaining of request\",\r\n    \"description\": \"Create Change Request\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocal}}://{{baseUri}}/{{basepath}}/:tableName",
+					"protocol": "{{protocal}}",
+					"host": [
+						"{{baseUri}}"
+					],
+					"path": [
+						"{{basepath}}",
+						":tableName"
+					],
+					"variable": [
+						{
+							"key": "tableName",
+							"value": "{{tableName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read_Change_request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocal}}://{{baseUri}}/{{basepath}}/:tableName/:sys_id",
+					"protocol": "{{protocal}}",
+					"host": [
+						"{{baseUri}}"
+					],
+					"path": [
+						"{{basepath}}",
+						":tableName",
+						":sys_id"
+					],
+					"variable": [
+						{
+							"key": "tableName",
+							"value": "{{tableName}}"
+						},
+						{
+							"key": "sys_id",
+							"value": "{{cr_SysId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upadate_Change_reuquest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							" pm.expect(pm.response.text()).to.include(\"Update Change Request\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"short_description\": \"Chaining for change request\",\r\n    \"description\": \"Update Change Request\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocal}}://{{baseUri}}/{{basepath}}/:tableName/:sys_id",
+					"protocol": "{{protocal}}",
+					"host": [
+						"{{baseUri}}"
+					],
+					"path": [
+						"{{basepath}}",
+						":tableName",
+						":sys_id"
+					],
+					"variable": [
+						{
+							"key": "tableName",
+							"value": "{{tableName}}"
+						},
+						{
+							"key": "sys_id",
+							"value": "{{cr_SysId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Change_Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{protocal}}://{{baseUri}}/{{basepath}}/:tableName/:sys_id",
+					"protocol": "{{protocal}}",
+					"host": [
+						"{{baseUri}}"
+					],
+					"path": [
+						"{{basepath}}",
+						":tableName",
+						":sys_id"
+					],
+					"variable": [
+						{
+							"key": "tableName",
+							"value": "{{tableName}}"
+						},
+						{
+							"key": "sys_id",
+							"value": "{{cr_SysId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify_Read_Change_request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 Not found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocal}}://{{baseUri}}/{{basepath}}/:tableName/:sys_id",
+					"protocol": "{{protocal}}",
+					"host": [
+						"{{baseUri}}"
+					],
+					"path": [
+						"{{basepath}}",
+						":tableName",
+						":sys_id"
+					],
+					"variable": [
+						{
+							"key": "tableName",
+							"value": "{{tableName}}"
+						},
+						{
+							"key": "sys_id",
+							"value": "{{cr_SysId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "basepath",
+			"value": "api/now/table"
+		},
+		{
+			"key": "tableName",
+			"value": "change_request"
+		},
+		{
+			"key": "username",
+			"value": "admin"
+		},
+		{
+			"key": "password",
+			"value": ""
+		}
+	]
+}
